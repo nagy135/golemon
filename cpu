@@ -4,7 +4,7 @@ used=$(top -b -n 1 | grep Cpu | awk '{ print $3 }' | tr '\n' ' ' | awk '{ print 
 used=$(($used*100/400))
 
 if [[ $used -lt 10 ]]; then
-    used="  $used"
+    used=" $used"
 fi
 
 if [[ $used -lt 20 ]]; then
