@@ -48,10 +48,10 @@ func refreshBlock(block string) string{
         volumeScript := exec.Command("/home/infiniter/Code/GoLemon/volume")
         volumeScriptOut, _ := volumeScript.Output()
         result = string(volumeScriptOut)
-    case "cpu":
-        cpuScript := exec.Command("/home/infiniter/Code/GoLemon/cpu")
-        cpuScriptOut, _ := cpuScript.Output()
-        result = string(cpuScriptOut)
+    // case "cpu":
+    //     cpuScript := exec.Command("/home/infiniter/Code/GoLemon/cpu")
+    //     cpuScriptOut, _ := cpuScript.Output()
+    //     result = string(cpuScriptOut)
     case "battery":
         batteryScript := exec.Command("/home/infiniter/Code/GoLemon/battery")
         batteryScriptOut, _ := batteryScript.Output()
@@ -82,7 +82,7 @@ func refreshBlock(block string) string{
 func prepareForLemon( blocks map[string]string ) string{
     left := []string{"music"}
     center := []string{"workspaces"}
-    right := []string{"torrent", "volume", "cpu", "battery", "brightness", "redshift", "wifi", "layout", "date"}
+    right := []string{"torrent", "volume","battery", "brightness", "redshift", "wifi", "layout", "date"}
     vals_left := make([]string, 0, len(left))
     vals_center := make([]string, 0, len(center))
     vals_right := make([]string, 0, len(right))
@@ -109,12 +109,13 @@ func fetchEmpty( data map[string] string ) map[string] string{
 func main() {
     sigs := make(chan os.Signal, 1)
     done := make(chan bool, 1)
+    mutex := make(chan bool, 1)
 
     signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM, syscall.SIGUSR1)
 
     fmt.Println("Starting GoLemon")
     go func() {
-        lemon := exec.Command("lemonbar", "-p", "-f", "League Mono-14", "-f", "FontAwesome-16", "-B", "#000000", "-F", "#CCCCCC", "-g", "1920x25+0+0")
+        lemon := exec.Command("lemonbar", "-p", "-f", "League Mono-14", "-f", "FontAwesome-16", "-B", "#000000", "-F", "#CCCCCC", "-g", "1920x25+0+0", "| bash")
         lemonIn, _ := lemon.StdinPipe()
         // lemonOut, _ := lemon.StdoutPipe()
         lemon.Start()
