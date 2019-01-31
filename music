@@ -1,0 +1,77 @@
+#!/bin/bash
+
+
+mpc_master_val=$(mpc)
+
+if [[ $(echo "$mpc_master_val" | grep ERROR | wc -l) -gt 0 ]]; then
+    echo -n " %{F#c22330}No music library%{F-}"
+    exit 1
+fi
+
+
+my_string=$( echo "$mpc_master_val" | sed '2q;d')
+mpc_val_1=$( echo "$mpc_master_val" | sed '1q;d')
+if [[ ${#mpc_val_1} -gt 45 ]]; then
+    mpc_val_1="${mpc_val_1:0:40}...${mpc_val_1: -5:5}"
+fi
+mpc_val_2=$( echo "$mpc_master_val" | sed '2q;d' | sed 's/.* \([0-9]*:[0-9]*\/[0-9]*:[0-9]*\).*/\1/')
+random_val=$(echo "$mpc_master_val" | sed '3q;d' | sed 's/.*\(random: \)\([onf]\+\).*/\2/')
+consume_val=$(echo "$mpc_master_val" | sed '3q;d' | sed 's/.*\(consume: \)\([onf]\+\).*/\2/')
+single_val=$(echo "$mpc_master_val" | sed '3q;d' | sed 's/.*\(single: \)\([onf]\+\).*/\2/')
+repeat_val=$(echo "$mpc_master_val" | sed '3q;d' | sed 's/.*\(repeat: \)\([onf]\+\).*/\2/')
+
+current_time=$(echo $mpc_val_2 | awk -F "/" '{print $1}')
+current_min=$(echo $current_time | awk -F ":" '{print $1}')
+current_sec=$(echo $current_time | awk -F ":" '{print $2}')
+
+total_time=$(echo $mpc_val_2 | awk -F "/" '{print $2}')
+total_min=$(echo $total_time | awk -F ":" '{print $1}')
+total_sec=$(echo $total_time | awk -F ":" '{print $2}')
+#
+# percentage=$(python /home/infiniter/Code/Pylemon/get_percentages.py $current_min $current_sec $total_min $total_sec)
+
+# percentage=$(echo "$percentage%")
+
+if [[ $random_val == "on" ]]; then
+    random_val=" "
+else
+    random_val=" %{F#555555}%{F-}"
+fi
+if [[ $consume_val == "on" ]]; then
+    consume_val=" "
+else
+    consume_val=" %{F#555555}%{F-}"
+fi
+if [[ $single_val == "on" ]]; then
+    single_val=" "
+else
+    single_val=" %{F#555555}%{F-}"
+fi
+if [[ $repeat_val == "on" ]]; then
+    repeat_val=" "
+else
+    repeat_val=" %{F#555555}%{F-}"
+fi
+volume_val=$(echo "$mpc_master_val" | sed '3q;d' | grep -oE '[[:digit:]]+%')
+volume=$(echo $volume_val | sed 's/%//')
+if [[ $volume -lt 100 ]]; then
+    volume_val=" - $volume_val"
+else
+    volume_val=""
+fi
+
+buttons="$random_val$consume_val$single_val$volume_val$repeat_val" 
+
+if [[ $my_string =~ "playing" ]]; then
+    output=$(echo " $mpc_val_1 ")
+    color="#b2d3d9"
+else
+    line_count=$(echo "$mpc_master_val" | wc -l)
+    if [[ $line_count -eq 1 ]]; then
+        echo ""
+    else
+        output=$(echo " $mpc_val_1 ")
+    fi
+    color="#555555"
+fi
+echo -n " %{F$color}$output%{F-}$buttons"

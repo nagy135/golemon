@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ $# -gt 0 ]]; then
+    while true; do
+        sleep $1
+        /home/infiniter/Code/Pylemon/pylemon_signal 11 &
+    done
+fi

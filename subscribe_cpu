@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [[ $# -gt 0 ]]; then
+    while true; do
+        sleep $1
+        echo 'cpu' > /tmp/golemon_refresh
+        /home/infiniter/Code/GoLemon/signal &
+    done
+fi

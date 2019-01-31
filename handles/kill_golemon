@@ -1,0 +1,8 @@
+#!/bin/bash
+
+killall lemonbar
+
+pkill -f golemon &> /dev/null
+pkill -f subscribe_cpu &> /dev/null
+pkill -f lemonbar &> /dev/null
+# ps aux | grep pylemon | egrep -v "nvim" | awk '{print $2}' | xargs -t kill

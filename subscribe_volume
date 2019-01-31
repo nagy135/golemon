@@ -1,0 +1,6 @@
+#!/bin/bash
+
+pactl subscribe | grep --line-buffered "sink" | while read line; do
+    echo 'volume' > /tmp/golemon_refresh
+    ./signal &
+done

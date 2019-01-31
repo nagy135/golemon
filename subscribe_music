@@ -1,0 +1,6 @@
+#!/bin/bash
+
+mpc idleloop | grep -v --line-buffered "playlist" | while read line; do
+    echo 'music' > /tmp/golemon_refresh
+    ./signal &
+done

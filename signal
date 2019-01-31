@@ -1,0 +1,4 @@
+#!/bin/bash
+
+pid=$(ps aux | grep golemon | grep -v vim | grep -v -e 'grep' | awk '{ print $2 }')
+kill -s SIGUSR1 $pid 2> /dev/null

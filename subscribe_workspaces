@@ -1,0 +1,7 @@
+#!/bin/bash
+
+bspc subscribe | while read line; do
+    echo $line > /tmp/workspaces
+    echo 'workspaces' > /tmp/golemon_refresh
+    ./signal &
+done
