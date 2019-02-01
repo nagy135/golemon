@@ -19,7 +19,7 @@ func initBlocks() map[string]string {
     b["workspaces"] = ""
     b["torrent"] = ""
     b["volume"] = ""
-    b["cpu"] = ""
+    // b["cpu"] = ""
     b["battery"] = ""
     b["brightness"] = ""
     b["redshift"] = ""
@@ -82,7 +82,7 @@ func refreshBlock(block string) string{
 func prepareForLemon( blocks map[string]string ) string{
     left := []string{"music"}
     center := []string{"workspaces"}
-    right := []string{"torrent", "volume","battery", "brightness", "redshift", "wifi", "layout", "date"}
+    right := []string{"torrent", "volume", "battery", "brightness", "redshift", "wifi", "layout", "date"}
     vals_left := make([]string, 0, len(left))
     vals_center := make([]string, 0, len(center))
     vals_right := make([]string, 0, len(right))
@@ -109,7 +109,6 @@ func fetchEmpty( data map[string] string ) map[string] string{
 func main() {
     sigs := make(chan os.Signal, 1)
     done := make(chan bool, 1)
-    mutex := make(chan bool, 1)
 
     signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM, syscall.SIGUSR1)
 
@@ -118,6 +117,7 @@ func main() {
         lemon := exec.Command("lemonbar", "-p", "-f", "League Mono-14", "-f", "FontAwesome-16", "-B", "#000000", "-F", "#CCCCCC", "-g", "1920x25+0+0", "| bash")
         lemonIn, _ := lemon.StdinPipe()
         // lemonOut, _ := lemon.StdoutPipe()
+
         lemon.Start()
         var blocks map[string]string
         blocks = initBlocks()
