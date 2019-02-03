@@ -6,8 +6,12 @@ cd /home/infiniter/Code/GoLemon/
 ./subscribe_date 60 &
 ./subscribe_music &
 ./subscribe_battery 60 &
-./subscribe_volume &
+# ./subscribe_volume &
 ./subscribe_workspaces &
 
-sleep 1
-xdo above -t "$(xdo id -N Bspwm -n root | sort | head -n 1)" "$(xdo id -a bar)"
+sleep 2
+
+bar=$(xdo id -a bar)
+root=$(xdo id -N Bspwm -n root | sort | head -n 1)
+
+xdo above -t $root $bar
