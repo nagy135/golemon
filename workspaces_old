@@ -1,0 +1,31 @@
+#!/bin/bash
+
+
+res=$(cat /tmp/workspaces | cut -d : -f 2-11 | tr ':' '\n')
+floating=$(cat /tmp/workspaces)
+floating=${floating: -4:4}
+floating=$(echo $floating | awk -F: '{print $1}')
+echo -ne " "
+for DESKTOP in $res
+do
+    name=$(echo $DESKTOP | sed 's/o//;s/f//;s/F//;s/O//')
+    echo -ne "%{A1:bspc desktop -f $name:}"
+    if [[ "$DESKTOP" =~ ^[f,o].+$ ]]; then
+        if [[ $DESKTOP =~ ^f.+$ ]]; then
+            echo -ne "%{B#0b0b0b}"
+            echo -ne "%{F#b2d3d9}"
+        elif [[ $DESKTOP =~ ^o.+$ ]]; then
+            echo -ne "%{B#000000}"
+            echo -ne "%{F#c22330}"
+        fi
+    elif [[ $DESKTOP =~ ^[F,O].+$ ]]; then
+        if [[ $floating == "TF" ]]; then
+            echo -ne "%{B#304bcc}"
+            echo -ne "%{F#f9dc2b}"
+        else
+            echo -ne "%{B#c22330}"
+            echo -ne "%{F#0b0b0b}"
+        fi
+    fi
+    echo -ne " $name %{F-}%{B-}%{A1}"
+done

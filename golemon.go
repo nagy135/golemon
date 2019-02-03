@@ -3,7 +3,7 @@ package main
 import "fmt"
 // import "strconv"
 import "strings"
-// import "time"
+import "time"
 import "os"
 import "os/signal"
 import "syscall"
@@ -119,13 +119,19 @@ func main() {
         // lemonOut, _ := lemon.StdoutPipe()
 
         lemon.Start()
+
+        go func() {
+            time.Sleep(time.Second * 3)
+            bar := exec.Command("fix_layers_golemon")
+            bar_id, _ := bar.StdoutPipe()
+            bar.Start()
+        }()
         var blocks map[string]string
         blocks = initBlocks()
         blocks = fetchEmpty(blocks)
         for {
             lemonIn.Write([]byte(prepareForLemon(blocks)))
             sig := <-sigs
-            // time.Sleep(time.Second * 2)
             switch sig {
             case syscall.SIGINT:
                 fmt.Println("interrupted")

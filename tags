@@ -5,23 +5,5 @@
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	0.0.0	/45968eff/
-b_black	workspaces2.go	/^const b_black string = "%{B#0b0b0b}"$/;"	c	package:main
-b_blue	workspaces2.go	/^const b_blue string = "%{B#304bcc}"$/;"	c	package:main
-b_cyan	workspaces2.go	/^const b_cyan string = "%{B#2dc189}"$/;"	c	package:main
-b_end	workspaces2.go	/^const b_end string = "%{B-}"$/;"	c	package:main
-b_green	workspaces2.go	/^const b_green string = "%{B#19a85b}"$/;"	c	package:main
-b_magenta	workspaces2.go	/^const b_magenta string = "%{B#d13273}"$/;"	c	package:main
-b_red	workspaces2.go	/^const b_red string = "%{B#c22330}"$/;"	c	package:main
-b_white	workspaces2.go	/^const b_white string = "%{B#b2d3d9}"$/;"	c	package:main
-b_yellow	workspaces2.go	/^const b_yellow string = "%{B#f9dc2b}"$/;"	c	package:main
-f_black	workspaces2.go	/^const f_black string = "%{F#0b0b0b}"$/;"	c	package:main
-f_blue	workspaces2.go	/^const f_blue string = "%{F#304bcc}"$/;"	c	package:main
-f_cyan	workspaces2.go	/^const f_cyan string = "%{F#2dc189}"$/;"	c	package:main
-f_end	workspaces2.go	/^const f_end string = "%{F-}"$/;"	c	package:main
-f_green	workspaces2.go	/^const f_green string = "%{F#19a85b}"$/;"	c	package:main
-f_magenta	workspaces2.go	/^const f_magenta string = "%{F#d13273}"$/;"	c	package:main
-f_red	workspaces2.go	/^const f_red string = "%{F#c22330}"$/;"	c	package:main
-f_white	workspaces2.go	/^const f_white string = "%{F#b2d3d9}"$/;"	c	package:main
-f_yellow	workspaces2.go	/^const f_yellow string = "%{F#f9dc2b}"$/;"	c	package:main
-main	workspaces2.go	/^func main() {$/;"	f	package:main
-main	workspaces2.go	/^package main$/;"	p
+main	music2.go	/^func main(){$/;"	f	package:main
+main	music2.go	/^package main$/;"	p

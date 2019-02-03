@@ -1,7 +1,6 @@
 #!/bin/bash
 
-mpc idleloop player | while read line; do
-    logger "mpc $(date)"
+mpc idleloop options player | while read line; do
     echo 'music' > /tmp/golemon_refresh
     ./signal &
 done
