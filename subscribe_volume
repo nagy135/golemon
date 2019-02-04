@@ -1,6 +1,11 @@
 #!/bin/bash
 
+last=$(date "+%s")
 pactl subscribe | grep --line-buffered "sink" | while read line; do
-    echo 'volume' > /tmp/golemon_refresh
-    ./signal &
+    new=$(date "+%s")
+    if [[ $((new-last)) -ge 1 ]]; then
+        last=$new
+        echo 'volume' > /tmp/golemon_refresh
+        ./signal &
+    fi
 done
