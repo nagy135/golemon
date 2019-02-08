@@ -2,8 +2,8 @@
 
 if [[ $# -gt 0 ]]; then
     while true; do
-        sleep $1
         echo 'date' > /tmp/golemon_refresh
         /home/infiniter/Code/GoLemon/signal &
+        sleep $1
     done
 fi

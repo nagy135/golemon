@@ -10,7 +10,10 @@ import "syscall"
 import "io/ioutil"
 import "os/exec"
 
-const separator string = " %{F#c22330}•%{F-} "
+const separator_left string = ""
+const separator_right string = ""
+const color_first string = "#FF282A2E"
+const color_second string = "#FF454A4F"
 
 func initBlocks() map[string]string {
     var b map[string]string
@@ -35,7 +38,7 @@ func refreshBlock(block string) string{
     case "music":
         musicScript := exec.Command("/home/infiniter/Code/GoLemon/music")
         musicScriptOut, _ := musicScript.Output()
-        result = string(musicScriptOut)
+        result = "%{B" + color_first + "}" + string(musicScriptOut) + " %{B-}%{F" + color_first + "}" + separator_right + "%{F-}"
     case "workspaces":
         workspacesScript := exec.Command("/home/infiniter/Code/GoLemon/workspaces")
         workspacesScriptOut, _ := workspacesScript.Output()
@@ -43,39 +46,35 @@ func refreshBlock(block string) string{
     case "torrent":
         torrentScript := exec.Command("/home/infiniter/Code/GoLemon/torrent")
         torrentScriptOut, _ := torrentScript.Output()
-        result = string(torrentScriptOut)
+        result = "%{F" + color_first + "}" + separator_left + "%{F-}%{B" + color_first + "} " + string(torrentScriptOut) + " %{F" + color_second + "}" + separator_left + "%{F-}%{B-}"
     case "volume":
         volumeScript := exec.Command("/home/infiniter/Code/GoLemon/volume")
         volumeScriptOut, _ := volumeScript.Output()
-        result = string(volumeScriptOut)
-    // case "cpu":
-    //     cpuScript := exec.Command("/home/infiniter/Code/GoLemon/cpu")
-    //     cpuScriptOut, _ := cpuScript.Output()
-    //     result = string(cpuScriptOut)
+        result = "%{B" + color_second + "} " + string(volumeScriptOut) + " %{F" + color_first + "}" + separator_left + "%{F-}%{B-}"
     case "battery":
         batteryScript := exec.Command("/home/infiniter/Code/GoLemon/battery")
         batteryScriptOut, _ := batteryScript.Output()
-        result = string(batteryScriptOut)
+        result = "%{B" + color_first + "} " + string(batteryScriptOut) + " %{F" + color_second + "}" + separator_left + "%{F-}%{B-}"
     case "brightness":
         brightnessScript := exec.Command("/home/infiniter/Code/GoLemon/brightness")
         brightnessScriptOut, _ := brightnessScript.Output()
-        result = string(brightnessScriptOut)
+        result = "%{B" + color_second + "} " + string(brightnessScriptOut) + " %{F" + color_first + "}" + separator_left + "%{F-}%{B-}"
     case "redshift":
         redshiftScript := exec.Command("/home/infiniter/Code/GoLemon/redshift")
         redshiftScriptOut, _ := redshiftScript.Output()
-        result = string(redshiftScriptOut)
+        result = "%{B" + color_first + "} " + string(redshiftScriptOut) + " %{F" + color_second + "}" + separator_left + "%{F-}%{B-}"
     case "wifi":
         wifiScript := exec.Command("/home/infiniter/Code/GoLemon/wifi")
         wifiScriptOut, _ := wifiScript.Output()
-        result = string(wifiScriptOut)
+        result = "%{B" + color_second + "} " + string(wifiScriptOut) + " %{F" + color_first + "}" + separator_left + "%{F-}%{B-}"
     case "layout":
         layoutScript := exec.Command("/home/infiniter/Code/GoLemon/layout")
         layoutScriptOut, _ := layoutScript.Output()
-        result = string(layoutScriptOut)
+        result = "%{B" + color_first + "} " + string(layoutScriptOut) + " %{F" + color_second + "}" + separator_left + "%{F-}%{B-}"
     case "date":
         dateScript := exec.Command("/home/infiniter/Code/GoLemon/date")
         dateScriptOut, _ := dateScript.Output()
-        result = string(dateScriptOut)
+        result = "%{B" + color_second + "} " + string(dateScriptOut) + " %{B-}"
     }
     return result
 }
@@ -95,7 +94,7 @@ func prepareForLemon( blocks map[string]string ) string{
     for _,key_right := range right{
         vals_right = append(vals_right, blocks[key_right])
     }
-    res := "%{l}" + strings.Join(vals_left, separator) + "%{c}" + strings.Join(vals_center, separator) + "%{r}" + strings.Join(vals_right, separator)
+    res := "%{l}" + strings.Join(vals_left, "") + "%{c}" + strings.Join(vals_center, "") + "%{r}" + strings.Join(vals_right, "")
     return res
 }
 func fetchEmpty( data map[string] string ) map[string] string{
@@ -114,16 +113,20 @@ func main() {
 
     fmt.Println("Starting GoLemon")
     go func() {
-        lemon := exec.Command("lemonbar", "-p", "-f", "League Mono-14", "-f", "FontAwesome-16", "-B", "#000000", "-F", "#CCCCCC", "-g", "1920x25+0+0", "| bash")
+        lemon := exec.Command("lemonbar", "-p", "-f", "Inconsolata for Powerline-15", "-f", "FontAwesome-16", "-B", "#0b0b0b", "-F", "#CCCCCC", "-g", "1920x25+0+0")
         lemonIn, _ := lemon.StdinPipe()
         // lemonOut, _ := lemon.StdoutPipe()
-
         lemon.Start()
+
+        stalonetray := exec.Command("stalonetray" ,"--geometry", "3x1+700+0", "--grow-gravity", "W", "--icon-gravity", "E", "-bg", "#0b0b0b", "--max-geometry", "10x1")
+        // stalonetrayIn, _ := stalonetray.StdinPipe()
+        // stalonetrayOut, _ := stalonetray.StdoutPipe()
+        stalonetray.Start()
 
         go func() {
             time.Sleep(time.Second * 3)
             bar := exec.Command("fix_layers_golemon")
-            bar_id, _ := bar.StdoutPipe()
+            // bar_id, _ := bar.StdoutPipe()
             bar.Start()
         }()
         var blocks map[string]string
